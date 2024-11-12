@@ -2,7 +2,7 @@
 
 ## Objectifs du partie 1
 
-Ce projet vise à prédire les prix de clôture d'un actif financier en utilisant un modèle de réseau de neurones profond (DNN). Le modèle a été entraîné avec et sans techniques de régularisation pour comparer les performances des deux approches.
+Cette partie vise à prédire les prix de clôture d'un actif financier en utilisant un modèle de réseau de neurones profond (DNN). Le modèle a été entraîné avec et sans techniques de régularisation pour comparer les performances des deux approches.
 
 ## Étapes du partie 1
 
@@ -53,4 +53,79 @@ Les performances du modèle avec et sans régularisation ont été comparées :
 
 ---
 
-**Note** : Ce projet utilise la bibliothèque PyTorch pour la modélisation et le calcul des métriques de performance. Les détails des hyperparamètres et de l'architecture sont dans le code associé.
+# Partie 2 de Classification pour la Maintenance Prédictive
+
+Cette partie de classification utilise un modèle de réseau de neurones profonds pour prédire les types de défaillances potentielles dans un processus de maintenance prédictive. Voici les étapes suivies dans ce projet, de la préparation des données à l'entraînement du modèle, ainsi que les résultats des métriques de performance.
+
+## Contenu
+1. [Prétraitement des Données](#prétraitement-des-données)
+2. [Exploration des Données](#exploration-des-données)
+3. [Équilibrage des Classes](#équilibrage-des-classes)
+4. [Entraînement du Modèle de Classification](#entraînement-du-modèle-de-classification)
+5. [Optimisation des Hyperparamètres](#optimisation-des-hyperparamètres)
+6. [Régularisation et Amélioration du Modèle](#régularisation-et-amélioration-du-modèle)
+7. [Résultats](#résultats)
+8. [Conclusion](#conclusion)
+
+## Prétraitement des Données
+
+1. **Chargement des Données** : Chargement du dataset `predictive_maintenance.csv` et suppression des colonnes non pertinentes (`UDI` et `Product ID`).
+2. **Encodage des Variables Catégorielles** : Conversion des valeurs textuelles en valeurs numériques pour les colonnes `Type` et `Failure Type` en utilisant `LabelEncoder`.
+3. **Normalisation des Données** : Utilisation de `StandardScaler` pour normaliser les caractéristiques sélectionnées (`Air temperature`, `Process temperature`, etc.).
+
+## Exploration des Données
+
+1. Création d'histogrammes pour visualiser les distributions des caractéristiques.
+2. Affichage des matrices de corrélation pour comprendre les relations entre les caractéristiques.
+3. Visualisation de la distribution des caractéristiques après normalisation.
+
+## Équilibrage des Classes
+
+Pour améliorer l'efficacité du modèle, un rééchantillonnage de la classe minoritaire (`Target=1`) a été effectué afin d'équilibrer le dataset.
+
+## Entraînement du Modèle de Classification
+
+Un modèle de réseau de neurones profonds a été défini à l'aide de PyTorch, avec les étapes suivantes :
+
+1. **Définition du Modèle** : Création d'un modèle `DeepNN` avec deux couches cachées et une fonction d'activation ReLU.
+2. **Entraînement** : Entraînement du modèle sur 50 époques en utilisant `CrossEntropyLoss` comme fonction de perte et `Adam` comme optimiseur.
+3. **Évaluation** : Calcul de la précision sur l'ensemble de test.
+
+## Optimisation des Hyperparamètres
+
+Un `GridSearchCV` a été appliqué avec `skorch` pour trouver les meilleurs hyperparamètres (learning rate, nombre d'époques, optimiseur) et ainsi améliorer les performances du modèle.
+
+## Régularisation et Amélioration du Modèle
+
+Afin de réduire le surapprentissage, un modèle avec régularisation a été implémenté :
+
+1. **Batch Normalization et Dropout** : Ajoutés après chaque couche cachée pour stabiliser l'entraînement et prévenir l'overfitting.
+2. **L2 Regularization** : Utilisation de `weight_decay` dans l'optimiseur `Adam` pour renforcer la généralisation du modèle.
+
+## Résultats
+
+### Modèle sans Régularisation
+- **Précision** : 98,80%
+- **F1 Score** : 98,74%
+- **Recall** : 98,80%
+- **Précision** : 98,73%
+
+### Modèle avec Régularisation
+- **Précision** : 99,60%
+- **F1 Score** : 99,61%
+- **Recall** : 99,60%
+- **Précision** : 99,62%
+
+Les résultats montrent une amélioration significative après régularisation.
+
+## Conclusion
+
+Ce projet a permis de se familiariser avec les étapes clés de la création d'un modèle de classification en deep learning, en particulier :
+
+- Le prétraitement et la normalisation des données,
+- L'équilibrage des classes pour une meilleure précision,
+- L'optimisation des hyperparamètres pour maximiser la performance,
+- L'importance des techniques de régularisation pour un modèle plus général.
+
+Ce code et ses résultats sont disponibles dans ce répertoire pour référence et utilisation future.
+
